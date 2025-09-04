@@ -1,0 +1,39 @@
+COMANDOS PARA BANCO DE DADOS
+
+MARIADB
+
+
+-Listar todos os bancos (comandos DML)-
+show databases;
+
+-Criar um Banco de Dados (comandos DML)-
+create database escola;
+
+-Acessar um Banco de Dados (comandos DML)-
+use escola;
+
+-Visualizar tabelas em um Banco de Dados (comandos DML)- 
+show tables;
+
+-Visualizar tabelas em um Banco de Dados (comandos DML)- 
+show tables;
+
+-Destruir uma estrutura (comandos DML)-
+drop database escola;
+drop table alunos;
+
+-Criar uma tabela (comandos DML)-
+create table alunos(
+ nome varchar(255),
+ telefone varchar(16)
+);
+
+-Visualizar campos da tabela (comandos DML)-
+desc alunos;
+
+-Inserir um novo registro em uma tabela (comandos SQL)-
+insert into alunos(nome,telefone)
+values("Leandro Dakel Cunha","46 99934-5444");
+
+-Selecionar todos os registros em uma tabela (comandos SQL)-
+select * from alunos;
