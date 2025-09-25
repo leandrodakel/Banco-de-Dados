@@ -118,3 +118,91 @@ alter table professores rename column Disciplina to Disciplina2;
 --Altera o nome da tabela (comandos DML) -
 rename table professores to professores2;
 
+--Criando tabela com chave primaria (comandos DML) -
+create table alunos(
+ id int not null primary key,
+ nome varchar(255) not null
+ );
+ 
+ --Atualizando informações por meio do ID--
+ insert into alunos(id,nome) values(1,"Leandro");
+ insert into alunos(id,nome) values(2,"Leandro");
+ update alunos set nome = "Leonardo" where id = 2;
+ 
+--Criando tabela com chave primaria com auto incremento(comandos DML) -
+create table alunos(
+ id int not null primary key auto_increment,
+ nome varchar(255) not null
+ );
+ 
+--Inserir um novo registro em uma tabela com o ID com auto incremento--
+ insert into alunos(id,nome) values(null,"Leandro");
+ insert into alunos(id,nome) values(null,"Jose");
+ insert into alunos(nome) values("Maria");
+
+--Incluir uma coluna na tabela para informacao booleana--
+alter table alunos add column ativo boolean not null default(true);
+ 
+--Inserir um novo registro em uma tabela com informacao booleana ativada automaticamente--
+insert into alunos(nome,ativo) values("Leandro", false);
+insert into alunos(nome) values("Jorge");
+
+
+--site para programacao--
+https://www.w3schools.com/
+
+
+--Incluir uma coluna na tabela para informacao automatica (serve para qualquer campo)--
+alter table alunos add column ra varchar(100) not null default ("Sem Registro");
+
+update alunos set ra = "123" where id = 1;
+update alunos set ra = "124" where id = 2;
+update alunos set ra = "125" where id = 3;
+update alunos set ra = "126" where id = 4;
+update alunos set ra = "127" where id = 5;
+insert alunos(nome) values("Loreni"); --Loreni sera adicionada com o campo denominado 'Sem Registro' automaticamente no campo 'ra'--
+
+--Exibir lista em forma crescente--
+select * from alunos order by nome;
+
+--Exibir lista em forma 'decrescente'--
+select * from alunos order by ra desc;
+
+--Exibir filtragem especifica--
+select * from alunos where nome = "Leandro";
+
+--Exibir filtragem selecionada--
+select * from alunos where nome like "J%";--exibirá os nomes de Jorge e Jose (pois tem 'J' no comeco)--
+select * from alunos where nome like "%o";--exibirá os nomes de Leandro e Ricardo (pois tem 'o' no fim)--
+select * from alunos where nome like "%a%";--exibirá os nomes de Leandro, Ricardo e Maria(pois tem 'a' em alguma posição na palavra)--
+
+--Exibir filtragem selecionada com dupla especificacao--
+select * from alunos where nome like "%a%" and ativo = 1;--exibira os nomes que tem 'A' no meio e os registros ativos-- 
+select * from alunos where nome like "J%" or nome like "L%";--exibira os nome que comecam com 'J' e terminam com 'L'--
+select * from alunos where not nome like "%J%";--nao exibira os nomes que tem o J--
+
+--Inserindo coluna com o tipo DATE e inserindo registro--
+alter table alunos add column data_nsc date;
+insert into alunos(nome,data_nsc) values("Gabriel","2001-03-25");
+
+--Inserir datas de nascimentos--
+update alunos
+set data_nsc = case id
+when 1 then '1995-05-23'
+when 2 then '1998-05-03'
+when 3 then '1997-05-12'
+when 4 then '2000-05-30'
+when 5 then '1995-05-23'
+when 6 then '1997-05-07'
+when 7 then '1995-06-15'
+end
+where id in (1,2,3,4,5,6,7);
+
+--Exibir lista a partir das pessoas mais velhas--
+select * from alunos where data_nsc is not null order by data_nsc asc;
+
+--Exibir a pessoa mais velha--
+select * from alunos where data_nsc is not null order by data_nsc asc limit 1;
+
+
+datetime
