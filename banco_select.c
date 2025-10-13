@@ -4,14 +4,14 @@
 
 int main() {
     // String de conexão — ajuste os dados conforme seu banco
-    const char *conninfo = "host=localhost port=5432 dbname=Estoque user=postgres password=123456";
+    const char *conninfo = "host=localhost port=5432 dbname=estoque user=postgres password=123456";
 
     // Conecta ao banco
     PGconn *conn = PQconnectdb(conninfo);
 
     // Verifica se a conexão deu certo
     if (PQstatus(conn) != CONNECTION_OK) {
-        fprintf(stderr, "Erro de conexão: %s\n", PQerrorMessage(conn));
+        fprintf(stderr, "Erro de conexao: %s\n", PQerrorMessage(conn));
         PQfinish(conn);
         return 1;
     }
@@ -20,13 +20,15 @@ int main() {
 
     // Executa uma consulta simples
     PGresult *res = PQexec(conn, "SELECT * FROM estoque;");
-
-    if (PQresultStatus(res) != PGRES_TUPLES_OK) {
+	
+    
+	if (PQresultStatus(res) != PGRES_TUPLES_OK) {
         fprintf(stderr, "Erro na consulta: %s\n", PQerrorMessage(conn));
         PQclear(res);
         PQfinish(conn);
         return 1;
     }
+
 
     // Exibe o resultado da consulta
 	printf("====================================================================\n");
