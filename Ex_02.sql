@@ -1,45 +1,3 @@
--- RESOLUÇÃO DO EXERCICIO 2 --
-
-CREATE DATABASE ESTACIONAMENTO;
-
-CREATE TABLE Cliente(
- cpf VARCHAR(14) PRIMARY KEY NOT NULL,
- nome VARCHAR(60) NOT NULL,
- dtNasc DATE NOT NULL
- );
- 
- CREATE TABLE Modelo(
- codMod INT PRIMARY KEY NOT NULL,
- Desc_2 VARCHAR(40) NOT NULL
- );
-
-CREATE TABLE Patio(
- num INT PRIMARY KEY NOT NULL,
- ender VARCHAR(40) NOT NULL,
- capacidade INT NOT NULL
- );
-
-CREATE TABLE Veiculo(
- placa VARCHAR(8) PRIMARY KEY NOT NULL,
- Modelo_codMod INT NOT NULL,
- Cliente_cpf VARCHAR(14) NOT NULL,
- cor VARCHAR(20) NOT NULL,
- FOREIGN KEY (Cliente_cpf) REFERENCES Cliente(cpf),
- FOREIGN KEY (Modelo_codMod) REFERENCES Modelo(codMod)
- );
- 
- CREATE TABLE Estaciona(
- cod INT PRIMARY KEY NOT NULL,
- Patio_num INT NOT NULL,
- Veiculo_placa VARCHAR(8) NOT NULL,
- dtEntrada VARCHAR(10) NOT NULL,
- dtSaida VARCHAR(10) NOT NULL,
- hsEntrada VARCHAR(10) NOT NULL,
- hsSaida VARCHAR(10) NOT NULL,
- FOREIGN KEY (Patio_num) REFERENCES Patio(num),
- FOREIGN KEY (Veiculo_placa) REFERENCES Veiculo(placa)
- );
- 
 create database ESTACIONA;
 
 use ESTACIONA;
@@ -159,13 +117,7 @@ VALUES (1, 1, 'ABC1A23', '2025-10-10', '2025-10-10', '08:30', '12:15'),
 14. Exiba a placa, o nome dos donos e a descrição dos os modelos de todos os veículos. 
 
 
-1.
-SELECT 
-    * 
-FROM Veiculo
-    JOIN Modelo ON Veiculo.Modelo_codMod = Modelo.codMod
-    JOIN Cliente ON Veiculo.Cliente_cpf = Cliente.cpf;
-
+1. Exiba a placa e o nome dos donos de todos os veículos.
 
 SELECT 
     -- Veiculo.*,
@@ -174,7 +126,7 @@ SELECT
 FROM Veiculo
     JOIN Cliente ON Veiculo.Cliente_cpf = Cliente.cpf;
 
-2.
+2. Exiba o CPF e o nome do cliente que possui o veículo de placa “FGH6F78”.
 SELECT 
     Cliente.cpf, 
     Cliente.nome,
@@ -217,7 +169,17 @@ SELECT
     DATEDIFF(CONCAT(dtSaida,' ', hsSaida), CONCAT(dtEntrada,' ', hsEntrada)) TOTAL_DIAS,
     TIMEDIFF(CONCAT(dtSaida,' ', hsSaida), CONCAT(dtEntrada,' ', hsEntrada)) TOTAL_HORAS
 FROM ESTACIONA; 
+----------
 
+3. Exiba a placa e a cor do veículo que possui o código de estacionamento 1.
+
+SELECT
+	 ESTACIONA.VEICULO_PLACA,
+	 VEICULO.COR
+ FROM Estaciona
+	 JOIN PATIO ON ESTACIONA.PATIO_NUM = PATIO.num
+	 JOIN VEICULO ON ESTACIONA.VEICULO_PLACA = VEICULO.placa
+	 WHERE ESTACIONA.PATIO_NUM = 1;
 		  
 
  
