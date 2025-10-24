@@ -1,3 +1,5 @@
+https://docs.google.com/document/d/1zqMfx7A_5XIpfWs6HyeOWG8WgxuydKyy/edit?pli=1
+
 create database ESTACIONA;
 
 use ESTACIONA;
@@ -118,9 +120,9 @@ VALUES (1, 1, 'ABC1A23', '2025-10-10', '2025-10-10', '08:30', '12:15'),
 
 
 1. Exiba a placa e o nome dos donos de todos os veículos.
-
+-- Veiculo.*,
 SELECT 
-    -- Veiculo.*,
+    
     Veiculo.placa,
     Cliente.nome
 FROM Veiculo
@@ -154,7 +156,21 @@ SELECT
     e.dtSaida,
     (e.dtSaida - e.dtEntrada) as total_dias
 FROM 
-    Estaciona as e;
+    Estaciona e;
+
+
+SELECT 
+    e.hsEntrada,
+    e.hsSaida,
+    TIMEDIFF(hsSaida, hsEntrada) as total_horas
+FROM estaciona e;
+
+SELECT 
+    e.dtEntrada,
+    e.dtSaida,
+    (e.dtSaida - e.dtEntrada) as total_dias
+FROM 
+    Estaciona e;
 
 
 SELECT 
@@ -180,7 +196,99 @@ SELECT
 	 JOIN PATIO ON ESTACIONA.PATIO_NUM = PATIO.num
 	 JOIN VEICULO ON ESTACIONA.VEICULO_PLACA = VEICULO.placa
 	 WHERE ESTACIONA.PATIO_NUM = 1;
-		  
+
+4. Exiba a placa do veículo que possui o código de estacionamento 1.
+
+SELECT
+ ESTACIONA.VEICULO_PLACA
+ FROM ESTACIONA 
+  WHERE COD = 1;
+
+6. Exiba o endereço, a data de entrada e de saída
+dos estacionamentos do veículo de placa “HIJ8H90”. 
+
+SELECT
+ PATIO.ENDER,
+  DTENTRADA,
+  DTSAIDA
+ FROM Estaciona
+  JOIN PATIO ON ESTACIONA.PATIO_NUM = PATIO.num
+   WHERE VEICULO_PLACA = "HIJ8H90";
+
+7. Exiba a quantidade de vezes que os veículos
+de cor verde estacionaram.
+
+SELECT
+ COUNT(VEICULO.COR) VEICULO_VERDE
+ FROM ESTACIONA
+ JOIN VEICULO ON ESTACIONA.VEICULO_PLACA = VEICULO.placa
+  WHERE VEICULO.COR = "VERDE";
+
+8. Liste todos os clientes que possuem carro de
+modelo 1. 
+
+SELECT 
+ CLIENTE.NOME
+  FROM Veiculo
+    JOIN CLIENTE ON VEICULO.CLIENTE_CPF = CLIENTE.CPF
+	WHERE MODELO_CODMOD = 1;
+
+9. Liste as placas, os horários de entrada e saída
+dos veículos de cor verde.
+	
+SELECT
+  PLACA,
+  hsEntrada,
+  hsSaida
+  FROM VEICULO
+   JOIN ESTACIONA ON VEICULO.placa = ESTACIONA.VEICULO_PLACA
+	    JOIN MODELO ON VEICULO.MODELO_CODMOD = MODELO.CODMOD
+	     WHERE 
+	      	 COR = "VERDE";
+
+10. Liste todos os estacionamentos do veículo de 
+placa “JKL0J12”. 
+
+SELECT
+*
+ FROM Estaciona
+ WHERE VEICULO_PLACA = "JKL0J12";
+
+11. Exiba o nome do cliente que possui o veículo
+cujo código do estacionamento é 2. 
+  
+SELECT C.NOME
+ FROM ESTACIONA E
+   JOIN VEICULO AS V ON E.Veiculo_PLACA = V.placa
+    JOIN CLIENTE AS C ON V.Cliente_CPF = C.CPF
+	 WHERE COD = 2;
+	 
+12. Exiba o CPF do cliente que possui o veículo
+cujo código do estacionamento é 3. 
+
+SELECT C.cpf
+ FROM Veiculo V
+  JOIN ESTACIONA E ON V.PLACA = E.Veiculo_placa
+   JOIN CLIENTE C ON V.CLIENTE_CPF = C.cpf 
+    WHERE E.COD = 3;
+
+13. Exiba a descrição do modelo do veículo cujo
+código do estacionamento é 2. 
+
+SELECT
+ m.desc_2
+  from veiculo V
+   join estaciona e on v.placa = e.Veiculo_placa
+    join modelo m on v.modelo_codmod = m.codMod
+	 where e.cod = 2;
 
  
+ 14. Exiba a placa, o nome dos donos e a descrição
+ dos modelos de todos os veículos. 
  
+ SELECT
+  placa, c.nome nome_cliente, m.desc_2 descricao_carro
+ from veiculo V
+ join cliente c on v.cliente_cpf = c.cpf
+ join modelo m on v.Modelo_codMod = m.codMod; 
+   
