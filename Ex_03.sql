@@ -212,10 +212,110 @@ SELECT
      WHERE CH = (SELECT CH FROM CURSO WHERE NOME = 'auto cad')
 	 AND NOME <> 'auto cad';
 
+11. Exiba o nome de todos os alunos que fazem
+aniversário no mesmo mês que a Ana
 
+SELECT
+     NOME
+     FROM ALUNO
+     WHERE MONTH(NASCIMENTO) = (SELECT MONTH(NASCIMENTO) FROM ALUNO WHERE NOME = 'ANA')
+	 AND NOME <> 'ANA';
+
+12. Exiba todos os cursos com inicio em janiero de
+2008 que tenham alunos matriculados
+
+SELECT
+	 NOME NOME_DO_CURSO
+	 FROM curso C
+	 INNER JOIN MATRICULA M ON C.CODIGO = M.curso
+	 WHERE INICIO >= "2008-01-01"
+	 AND INICIO < "2008-01-31"
+	 GROUP BY C.NOME;
+ 
+
+13. Exiba todos os cursos com inicio em janeiro
+de 2008 independente de ter alunos matriculadosou não
+
+SELECT
+	 NOME NOME_DO_CURSO
+	 FROM curso C
+	 LEFT JOIN MATRICULA M ON C.CODIGO = M.curso
+	 WHERE INICIO >= "2008-01-01"
+	 AND INICIO < "2008-01-31"
+	 GROUP BY C.NOME;
+
+14. Exiba o nome do aluno e do curso de todos os
+alunos que fizeram matricula antes da data de
+inicio do curso no quel se matriculou
+pois este ganharão um brinde
+(observe que a Carla se matriculou no curso
+de autocad após o inicio do curso, portanto ela
+não foi listada e não recebeu o brinde)
+
+SELECT 
+	 A.NOME ALUNO, C.NOME CURSO, C.INICIO, M.DATA
+	 FROM MATRICULA M
+	 JOIN ALUNO A ON M.RA = A.RA
+	 JOIN CURSO C ON M.CURSO = C.CODIGO
+	 WHERE M.DATA < C.INICIO; 
+	 
+15. Listar os cursos que ainda não iniciaram
+
+SELECT
+	 NOME
+	 FROM CURSO C
+	 WHERE INICIO < "2025-10-24";
+
+
+16. Listar os alunos que fizeram matricula
+de sabado pois eles tambem receberão brindes
+
+--USANDO FUNÇÃO DAYNAME()
+SELECT
+	 A.NOME NOME_ALUNO
+	 FROM MATRICULA M
+	 JOIN ALUNO A ON M.RA = A.RA
+	 WHERE DAYNAME(DATA) = "SATURDAY";
+
+--USANDO FUNÇÃO DAYOFWEEK()
+SELECT
+	 A.NOME NOME_ALUNO
+	 FROM MATRICULA M
+	 JOIN ALUNO A ON M.RA = A.RA
+	 WHERE DAYOFWEEK(DATA) = "7";
+
+17. Os alunos que fizeram matricula de sabado
+receberão 50% do valor pago na MATRICULA de volta,
+para incentivar essa pratica de se matricular em
+cursos no plantão. Exibir o nome do aluno e o 
+valor a restituir(apelidar a coluna com este
+nome, e exibir o valor com duas casas decimais)
+
+SELECT
+	 A.NOME NOME_ALUNO,
+	 ROUND((M.VALOR - (M.VALOR * 0.5)), 2) VALOR_RESTITUICAO
+	 FROM MATRICULA M
+	 JOIN ALUNO A ON M.RA = A.RA
+	 WHERE DAYOFWEEK(DATA) = "7";
+
+18.Exibir o nome e a idade dos alunos
+
+SELECT
+	 NOME,
+	 TIMESTAMPDIFF(YEAR, nascimento, CURDATE()) idade
+	 FROM ALUNO;
+
+19. Listar o nome dos cursos e a duração em meses
+de cada um
+
+SELECT
+	 NOME,
+	 TIMESTAMPDIFF(MONTH, INICIO, TERMINO)  DURACAO_MESES
+	 FROM CURSO;
 
 
  
 
- 
 
+
+ 
